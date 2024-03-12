@@ -22,14 +22,15 @@ import { useStore } from "vuex";
 import { useRoute } from 'vue-router';
 
 const store = useStore();
-const route = useRoute();
+const route = useRoute(); // Accessing the route object from Vue Router
 const isLoading = ref(true);
 
+// Fetching the selected bonsai from the store when the component is mounted
 onMounted(async () => {
 await store.dispatch('fetchBonsaiById', route.params.id);
 isLoading.value = false;
 });
 
-const selectedBonsai = computed(() => store.state.selectedBonsai);
+const selectedBonsai = computed(() => store.state.selectedBonsai); // Creating a computed property to reactively access the selectedBonsai from the Vuex store
 </script>
   

@@ -26,6 +26,10 @@ const router = createRouter({
       path: '/bonsai/:id',
       component: () => import('../views/BonsaiDetailsView.vue')
     },
+    {
+      path: '/category/:category',
+      component: () => import('../views/BonsaiCategoryView.vue')
+    }
   ]
 })
 

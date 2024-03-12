@@ -33,5 +33,20 @@ export default createStore({
             );
             commit("SET_SELECTED_BONSAI", response.data);
         },
+
+        async fetchBonsaisByCategory({ commit }, category) {
+            try{
+                const categoryResponse = await axios.get(`https://tbhpwebdevapi.azurewebsites.net/api/BonsaiV2/Category?category=${category}`);
+                const categoryBonsaiIds = categoryResponse.data;
+
+                const bonsaisResponse = await axios.get('https://tbhpwebdevapi.azurewebsites.net/api/BonsaiV2/All');
+                const allBonsais = bonsaisResponse.data;
+
+                const filteredBonsais = allBonsais.filter(bonsai => categoryBonsaiIds.includes(bonsai.id));
+                commit('SET_BONSAIS', filteredBonsais);
+            } catch (error) {
+                console.error(error);
+            }
+        }
     },
 });

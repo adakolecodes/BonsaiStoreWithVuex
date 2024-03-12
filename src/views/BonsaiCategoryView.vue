@@ -21,18 +21,25 @@
 </template>
 
 <script setup>
-import { RouterLink, RouterView } from "vue-router"; // Importing RouterLink and RouterView from Vue Router
-import { ref, computed, onMounted } from "vue"; // Importing necessary Composition API functions from Vue
-import { useStore } from "vuex"; // Importing useStore function from Vuex to access the store
+import { RouterLink, RouterView, useRoute } from "vue-router";
+import { ref, computed, watch, onMounted } from "vue";
+import { useStore } from "vuex";
 
-const store = useStore(); // Accessing the Vuex store instance
-const isLoading = ref(true); // Creating a ref variable to track the loading state
+const store = useStore(); 
+const route = useRoute();
+const isLoading = ref(true);
 
-// Fetch bonsais from the API when the component is mounted
-onMounted(async () => {
-    await store.dispatch("fetchBonsais");
+// Fetching the selected bonsais by category from the store
+const fetchBonsais = async () => {
+    await store.dispatch('fetchBonsaisByCategory', route.params.category);
     isLoading.value = false;
-});
+};
 
-const bonsais = computed(() => store.state.bonsais); // Creating a computed property to reactively access the bonsais from the Vuex store
+// Mounting the fetchBonsais function when the component is mounted
+onMounted(fetchBonsais);
+
+watch(() => route.params.category, fetchBonsais); // Watching for changes in the route params and calling the fetchBonsais function for each change
+
+const bonsais = computed(() => store.state.bonsais); // Creating a computed property to reactively access the bonsais by category from the Vuex store
+
 </script>
