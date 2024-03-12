@@ -24,7 +24,7 @@ export default createStore({
             const response = await axios.get(
               "https://tbhpwebdevapi.azurewebsites.net/api/BonsaiV2/All"
             );
-            commit("SET_BONSAIS", response.data); // Committing the fetched data to the state using the SET_TODOS mutation
+            commit("SET_BONSAIS", response.data); // Committing the fetched data to the state using the SET_BONSAIS mutation
         },
 
         async fetchBonsaiById({ commit }, id) {
